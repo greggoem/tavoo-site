@@ -1,0 +1,14 @@
+# Systeme
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editeurs
+.vscode/
+.idea/
+*.swp
+
+# Secrets : ne JAMAIS versionner d'identifiants FTP
+.env
+*.env
+ftp-credentials*

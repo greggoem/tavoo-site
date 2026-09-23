@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestion administrative et financière pour PME | Tavoo</title>
+<meta name="description" content="Tavoo décharge les PME belges de leur administration, de leur suivi financier et de leurs assurances. Diagnostic gratuit de 45 minutes. Bruxelles et Brabant wallon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16292B;
+  --ink-soft:#4A6065;
+  --paper:#EDEFE5;
+  --sheet:#F8F9F3;
+  --rule:#C6CDBB;
+  --blue:#2C46A8;
+  --blue-soft:#E3E7F6;
+  --stamp:#A8402F;
+
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"Spectral",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+
+  --gut:clamp(20px,5vw,64px);
+  --maxw:1120px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.65;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- ledger texture ---------- */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,rgba(22,41,43,.045) 31px,rgba(22,41,43,.045) 32px);
+  opacity:.55;
+}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);position:relative;z-index:1}
+
+/* ---------- typography ---------- */
+h1,h2,h3,h4{font-family:var(--display);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(2.4rem,6.2vw,4.5rem);font-variation-settings:"wdth" 92}
+h2{font-size:clamp(1.7rem,3.6vw,2.7rem)}
+h3{font-size:clamp(1.15rem,2vw,1.4rem);font-weight:600;letter-spacing:-.01em}
+p{margin:0 0 1.1em}
+a{color:var(--blue)}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 1.1rem;
+  display:flex;
+  align-items:center;
+  gap:.7rem;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+.lead{font-size:clamp(1.08rem,1.9vw,1.32rem);line-height:1.55;color:var(--ink-soft)}
+
+/* ---------- masthead ---------- */
+.masthead{padding-top:26px}
+.brandline{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:16px}
+.brand{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:1.55rem;
+  letter-spacing:-.03em;
+  font-variation-settings:"wdth" 88;
+  text-decoration:none;
+  color:var(--ink);
+}
+.brand span{color:var(--blue)}
+.brandsub{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* ---------- file tabs ---------- */
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  appearance:none;
+  border:1px solid var(--rule);
+  border-bottom:none;
+  background:rgba(255,255,255,.35);
+  color:var(--ink-soft);
+  font-family:var(--mono);
+  font-size:.76rem;
+  letter-spacing:.05em;
+  padding:11px 17px 12px;
+  border-radius:9px 9px 0 0;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background .18s ease,color .18s ease,transform .18s ease;
+}
+.tab:hover{background:rgba(255,255,255,.7);color:var(--ink)}
+.tab[aria-selected="true"]{
+  background:var(--sheet);
+  color:var(--ink);
+  border-color:var(--rule);
+  box-shadow:0 -2px 0 var(--blue) inset;
+  font-weight:500;
+}
+.tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.sheet{
+  background:var(--sheet);
+  border:1px solid var(--rule);
+  border-radius:0 12px 12px 12px;
+  box-shadow:0 22px 44px -34px rgba(22,41,43,.5);
+  overflow:hidden;
+}
+
+/* ---------- panels ---------- */
+.panel{display:none;padding:clamp(26px,5vw,60px) clamp(22px,5vw,64px) clamp(40px,6vw,72px)}
+.panel.is-active{display:block;animation:fadeUp .42s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,60px);align-items:center;padding-bottom:14px}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero .lead{max-width:34ch;margin-top:1.4rem}
+
+/* the pile: signature element */
+.pile{position:relative;height:370px}
+.doc{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(270px,74%);
+  background:#fff;
+  border:1px solid var(--rule);
+  border-radius:3px;
+  padding:13px 15px 15px;
+  box-shadow:0 8px 18px -12px rgba(22,41,43,.55);
+  font-family:var(--mono);
+  font-size:.7rem;
+  letter-spacing:.03em;
+  color:var(--ink-soft);
+  transform:translate(-50%,-50%) rotate(var(--r)) translate(var(--x),var(--y));
+  transition:transform 1s cubic-bezier(.22,.9,.28,1);
+}
+.doc b{display:block;font-family:var(--display);font-weight:600;font-size:.9rem;color:var(--ink);letter-spacing:-.01em;margin-bottom:5px}
+.doc::after{
+  content:"";
+  display:block;
+  margin-top:9px;
+  height:1px;
+  background:repeating-linear-gradient(to right,var(--rule) 0,var(--rule) 26px,transparent 26px,transparent 34px);
+}
+.is-sorted .doc{transform:translate(-50%,-50%) rotate(0deg) translate(0,var(--sy))}
+
+.stampmark{
+  position:absolute;
+  right:2%;
+  bottom:6%;
+  font-family:var(--mono);
+  font-size:.74rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--stamp);
+  border:2px solid var(--stamp);
+  border-radius:4px;
+  padding:7px 13px;
+  transform:rotate(-9deg) scale(.85);
+  opacity:0;
+  transition:opacity .5s ease 1.05s,transform .5s cubic-bezier(.3,1.5,.5,1) 1.05s;
+}
+.is-sorted .stampmark{opacity:.92;transform:rotate(-9deg) scale(1)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:.82rem;
+  letter-spacing:.05em;
+  text-decoration:none;
+  padding:15px 26px;
+  border-radius:5px;
+  background:var(--blue);
+  color:#fff;
+  border:1px solid var(--blue);
+  transition:transform .16s ease,box-shadow .16s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px -12px rgba(44,70,168,.9)}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn.ghost:hover{background:var(--blue-soft);box-shadow:none}
+.btnrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:1.9rem;align-items:center}
+.btnnote{font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- sections ---------- */
+.block{padding-top:clamp(46px,6vw,84px)}
+.block--rule{border-top:1px solid var(--rule);margin-top:clamp(46px,6vw,84px)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,54px)}
+.narrow{max-width:62ch}
+
+/* symptom list */
+.symptoms{list-style:none;margin:1.6rem 0 0;padding:0}
+.symptoms li{
+  padding:15px 0 15px 34px;
+  border-bottom:1px solid var(--rule);
+  position:relative;
+  color:var(--ink-soft);
+}
+.symptoms li::before{
+  content:"—";
+  position:absolute;
+  left:0;
+  top:15px;
+  font-family:var(--mono);
+  color:var(--blue);
+}
+.symptoms li strong{color:var(--ink);font-weight:600}
+
+/* index with dotted leaders */
+.index{margin-top:1.8rem;border-top:1px solid var(--rule)}
+.idx{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  padding:22px 0;
+  border-bottom:1px solid var(--rule);
+  text-decoration:none;
+  color:inherit;
+  transition:padding-left .22s ease;
+}
+.idx:hover{padding-left:9px}
+.idx .num{font-family:var(--mono);font-size:.74rem;color:var(--blue);flex:none;padding-top:4px}
+.idx .ttl{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2.1vw,1.45rem);letter-spacing:-.015em;flex:none;max-width:60%}
+.idx .dots{flex:1;border-bottom:1.5px dotted var(--rule);transform:translateY(-4px)}
+.idx .go{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);flex:none}
+.idx:hover .go{color:var(--blue)}
+.idx .sub{display:block;font-family:var(--body);font-weight:400;font-size:.9rem;color:var(--ink-soft);margin-top:5px;line-height:1.4}
+
+/* steps: a real sequence, so numbers carry meaning */
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,34px);margin-top:2rem}
+.step{border-top:2px solid var(--ink);padding-top:16px}
+.step::before{
+  counter-increment:s;
+  content:counter(s,decimal-leading-zero);
+  font-family:var(--mono);
+  font-size:.74rem;
+  color:var(--blue);
+  display:block;
+  margin-bottom:9px;
+}
+.step p{font-size:.96rem;color:var(--ink-soft);margin:.5rem 0 0}
+
+/* figure / proof */
+.proof{background:var(--ink);color:var(--sheet);border-radius:10px;padding:clamp(26px,4vw,44px);margin-top:2rem}
+.proof .fig{font-family:var(--display);font-weight:800;font-size:clamp(3rem,8vw,5.4rem);line-height:.92;letter-spacing:-.045em;font-variation-settings:"wdth" 84}
+.proof .cap{font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;color:#A9BDBE;margin-top:12px;max-width:44ch;line-height:1.7}
+
+/* people */
+.people{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,38px);margin-top:2rem}
+.person{background:#fff;border:1px solid var(--rule);border-radius:8px;padding:24px}
+.person .role{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.person p{font-size:.95rem;color:var(--ink-soft);margin:.6rem 0 0}
+
+/* final cta */
+.final{border:1px solid var(--rule);border-radius:10px;padding:clamp(28px,4vw,48px);margin-top:clamp(46px,6vw,80px);background:linear-gradient(180deg,#fff, var(--sheet))}
+
+/* service page bits */
+.svc-head{max-width:46ch}
+.callout{border-left:3px solid var(--blue);background:var(--blue-soft);padding:18px 22px;border-radius:0 6px 6px 0;margin:1.8rem 0;font-size:.97rem}
+.callout p:last-child{margin-bottom:0}
+.what{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px);margin-top:1.8rem}
+.what h4{font-family:var(--display);font-size:1rem;font-weight:600;margin-bottom:.5rem}
+.what ul{margin:0;padding-left:18px;color:var(--ink-soft);font-size:.96rem}
+.what li{margin-bottom:.45em}
+
+/* footer */
+.foot{padding:34px 0 60px;font-family:var(--mono);font-size:.72rem;line-height:1.9;color:var(--ink-soft)}
+.foot a{color:var(--ink-soft)}
+.footgrid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .pile{height:300px;order:-1}
+  .duo,.people,.what{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .idx{flex-wrap:wrap}
+  .idx .ttl{max-width:100%}
+  .idx .dots{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap masthead">
+  <div class="brandline">
+    <a class="brand" href="#" data-go="home">Tavoo<span>.</span></a>
+    <div class="brandsub">L'intendance des PME · Bruxelles &amp; Brabant wallon</div>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Sections du site">
+    <button class="tab" role="tab" aria-selected="true" data-panel="home">Accueil</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="peppol">Facturation électronique</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="admin">Gestion administrative</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="assur">Assurances</button>
+    <button class="tab" role="tab" aria-selected="false" data-panel="apropos">À propos</button>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="sheet">
+
+<!-- ============ ACCUEIL ============ -->
+<section class="panel is-active" id="home" role="tabpanel">
+
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Depuis 2018 · Halle</p>
+      <h1>Votre métier, c'est votre métier.<br><em>Le reste, c'est le nôtre.</em></h1>
+      <p class="lead">Nous prenons en charge l'administration, le suivi financier et les assurances des petites entreprises. Vous récupérez vos soirées et une vision claire de vos chiffres.</p>
+      <div class="btnrow">
+        <a class="btn" href="#contact" data-go="apropos">Réserver 45 minutes</a>
+        <span class="btnnote">Gratuit, sans engagement</span>
+      </div>
+    </div>
+
+    <div class="pile" id="pile" aria-hidden="true">
+      <article class="doc" style="--r:-13deg;--x:-58px;--y:-96px;--sy:-132px"><b>Facture fournisseur</b>Reçue le 12/03 · non encodée</article>
+      <article class="doc" style="--r:8deg;--x:64px;--y:-58px;--sy:-88px"><b>Déclaration TVA</b>Échéance dans 6 jours</article>
+      <article class="doc" style="--r:-5deg;--x:-72px;--y:-8px;--sy:-44px"><b>Rejet Peppol</b>Facture jamais reçue</article>
+      <article class="doc" style="--r:15deg;--x:38px;--y:34px;--sy:0px"><b>Police RC exploitation</b>Reconduite sans relecture</article>
+      <article class="doc" style="--r:-9deg;--x:-30px;--y:82px;--sy:44px"><b>Relance impayé</b>3e rappel · 4 280 €</article>
+      <article class="doc" style="--r:6deg;--x:70px;--y:118px;--sy:88px"><b>Contrat leasing</b>Fin de bail à négocier</article>
+      <div class="stampmark">Classé</div>
+    </div>
+  </div>
+
+  <div class="block block--rule">
+    <p class="eyebrow">Le problème</p>
+    <div class="duo">
+      <div>
+        <h2>Ce n'est jamais urgent. Jusqu'au jour où ça l'est.</h2>
+      </div>
+      <div>
+        <p>L'administratif d'une petite entreprise ne s'effondre pas d'un coup. Il glisse. Une facture pas encodée, une police reconduite sans être relue, un rappel TVA traité la veille de l'échéance.</p>
+        <p>Puis un jour vous découvrez que vous payez deux fois la même garantie, qu'un client ne vous a jamais réglé, ou qu'une facture partie en janvier n'est jamais arrivée chez son destinataire.</p>
+      </div>
+    </div>
+
+    <ul class="symptoms">
+      <li><strong>Vous encodez le dimanche soir.</strong> Ou vous n'encodez pas, et votre comptable réclame.</li>
+      <li><strong>Vous ne savez pas où vous en êtes.</strong> Le résultat, vous le découvrez au bilan, dix mois trop tard.</li>
+      <li><strong>Vos assurances datent d'il y a huit ans.</strong> Votre activité, non.</li>
+      <li><strong>Votre facturation électronique est « branchée ».</strong> Personne n'a vérifié si elle fonctionne.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <p class="eyebrow">Nos trois interventions</p>
+    <h2>Choisissez la porte d'entrée.<br>Nous nous occupons du couloir.</h2>
+    <nav class="index">
+      <a class="idx" href="#peppol" data-go="peppol">
+        <span class="num">01</span>
+        <span class="ttl">Facturation électronique &amp; conformité Peppol
+          <span class="sub">Audit de vos flux, paramétrage réel, intégration comptable.</span>
+        </span>
+        <span class="dots"></span>
+        <span class="go">Voir →</span>
+      </a>
+      <a class="idx" href="#admin" data-go="admin">
+        <span class="num">02</span>
+        <span class="ttl">Gestion administrative externalisée
+          <span class="sub">Encodage, relances, procédures, reporting mensuel.</span>
+        </span>
+        <span class="dots"></span>
+        <span class="go">Voir →</span>
+      </a>
+      <a class="idx" href="#assur" data-go="assur">
+        <span class="num">03</span>
+        <span class="ttl">Audit des assurances et des coûts
+          <span class="sub">Doublons, sous-assurances, primes hors marché.</span>
+        </span>
+        <span class="dots"></span>
+        <span class="go">Voir →</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="block">
+    <p class="eyebrow">Comment ça se passe</p>
+    <div class="steps">
+      <div class="step">
+        <h3>On regarde</h3>
+        <p>45 minutes, chez vous ou en visio. Vous montrez vos trois derniers mois. Nous écoutons et nous posons des questions.</p>
+      </div>
+      <div class="step">
+        <h3>On vous dit</h3>
+        <p>Une page, envoyée sous 48 heures : ce qui coince, ce que ça vous coûte, ce qui vaut la peine d'être corrigé. Même si vous ne travaillez pas avec nous.</p>
+      </div>
+      <div class="step">
+        <h3>On fait</h3>
+        <p>Quelques heures par mois ou une présence hebdomadaire, selon vos besoins. Pas de forfait imposé, pas d'engagement de durée.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="proof">
+      <p class="fig">15 %</p>
+      <p class="cap">C'est l'économie moyenne que nous dégageons sur les primes d'assurance de nos clients, en supprimant les doublons et en réalignant les garanties sur l'activité réelle. Nous ne vendons pas d'assurances et ne touchons aucune commission.</p>
+    </div>
+  </div>
+
+  <div class="final" id="contact">
+    <p class="eyebrow">Commencer</p>
+    <h2>Quarante-cinq minutes pour savoir où vous en êtes.</h2>
+    <p class="lead narrow" style="margin-top:1rem">Vous repartez avec un diagnostic écrit, que la suite se fasse avec nous ou non. Si nous estimons qu'il n'y a rien à gagner chez vous, nous vous le dirons.</p>
+    <div class="btnrow">
+      <a class="btn" href="mailto:bonjour@tavoo.be">Prendre rendez-vous</a>
+      <a class="btn ghost" href="tel:+32000000000">+32 (0)4xx xx xx xx</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ PEPPOL ============ -->
+<section class="panel" id="peppol" role="tabpanel">
+  <p class="eyebrow">01 · Facturation électronique</p>
+  <h1 class="svc-head">Votre facturation électronique est branchée. Mais est-elle vraiment en ordre ?</h1>
+  <p class="lead narrow" style="margin-top:1.6rem">Depuis le 1<sup>er</sup> janvier 2026, toutes les factures entre entreprises belges assujetties à la TVA doivent être émises au format électronique structuré et transmises via le réseau Peppol. Un PDF envoyé par e-mail n'est plus une facture conforme.</p>
+
+  <div class="block">
+    <h2>Compatible ne veut pas dire configuré</h2>
+    <p class="narrow" style="margin-top:1.2rem">La plupart des entreprises ont fait le minimum : une option activée dans le logiciel, et le sujet considéré comme réglé. Voici ce que nous trouvons sur le terrain.</p>
+    <ul class="symptoms">
+      <li><strong>Des factures envoyées mais jamais reçues</strong>, sans que personne ne remarque le rejet.</li>
+      <li><strong>Des factures fournisseurs qui arrivent sur le réseau</strong> et que plus personne ne consulte, parce que le flux n'a jamais été relié à la comptabilité.</li>
+      <li><strong>Des données incomplètes</strong> — mentions obligatoires, identifiants, unités — qui bloquent le traitement automatique.</li>
+      <li><strong>Un double encodage qui subsiste</strong> : la facture part par Peppol, puis quelqu'un la ressaisit à la main.</li>
+      <li><strong>Aucun suivi des paiements automatisé</strong>, alors que c'est le bénéfice principal du système.</li>
+    </ul>
+    <div class="callout">
+      <p>Résultat : l'obligation est formellement respectée, mais aucun des gains promis n'est au rendez-vous — et parfois, des factures ne sont jamais parvenues à leur destinataire.</p>
+    </div>
+  </div>
+
+  <div class="block block--rule">
+    <h2>Ce que nous faisons</h2>
+    <div class="steps">
+      <div class="step">
+        <h3>Audit des flux</h3>
+        <p>Ce qui sort, ce qui entre, ce qui est rejeté, ce qui est ressaisi à la main. Rapport en une page.</p>
+      </div>
+      <div class="step">
+        <h3>Correction</h3>
+        <p>Paramétrage du logiciel, vérification des identifiants, envois de test réels, mentions manquantes corrigées.</p>
+      </div>
+      <div class="step">
+        <h3>Intégration</h3>
+        <p>La facture est encodée une seule fois, par une seule personne. Ou par personne du tout.</p>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:2.2rem">
+      <p><strong>Et 2028.</strong> La Belgique prévoit d'utiliser Peppol pour transmettre automatiquement les données de facturation à l'administration fiscale. Les entreprises dont les données sont propres aujourd'hui n'auront rien à faire. Les autres devront tout reprendre.</p>
+    </div>
+  </div>
+
+  <div class="final">
+    <h2>Diagnostic Peppol en 45 minutes</h2>
+    <p class="lead narrow" style="margin-top:1rem">Nous regardons ensemble vos trois derniers mois de facturation. Vous repartez avec la liste précise de ce qui coince.</p>
+    <div class="btnrow"><a class="btn" href="mailto:bonjour@tavoo.be">Réserver mon diagnostic</a><span class="btnnote">Gratuit, sans engagement</span></div>
+  </div>
+</section>
+
+<!-- ============ ADMIN ============ -->
+<section class="panel" id="admin" role="tabpanel">
+  <p class="eyebrow">02 · Gestion administrative</p>
+  <h1 class="svc-head">L'administratif vous prend vos soirées. Il ne devrait pas.</h1>
+  <p class="lead narrow" style="margin-top:1.6rem">Vous avez lancé votre entreprise pour votre métier. Pas pour classer des factures le dimanche soir, relancer des impayés ou chercher un document dans une boîte mail de douze mille messages.</p>
+
+  <div class="block">
+    <h2>Ce que nous prenons en charge</h2>
+    <div class="what">
+      <div>
+        <h4>Administration courante</h4>
+        <ul>
+          <li>Encodage et suivi comptable, en lien avec votre comptable</li>
+          <li>Classement et archivage numérique des pièces</li>
+          <li>Suivi des paiements et relance des impayés</li>
+          <li>Contrats fournisseurs et échéances</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Procédures</h4>
+        <ul>
+          <li>Cartographie de vos processus et repérage des doublons</li>
+          <li>Outils adaptés à votre taille — pas d'usine à gaz</li>
+          <li>Digitalisation : fin du papier et des ressaisies</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Pilotage</h4>
+        <ul>
+          <li>Reporting mensuel : trésorerie, marge, encours clients</li>
+          <li>Tableau de bord limité à ce que vous devez décider</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Ce que nous ne faisons pas</h4>
+        <ul>
+          <li>Établir vos comptes annuels et vos déclarations — c'est le métier de votre comptable</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="block block--rule">
+    <div class="duo">
+      <div><h2>Nous ne remplaçons pas votre comptable.</h2></div>
+      <div>
+        <p>Votre comptable établit vos comptes et vos déclarations. Nous nous occupons de tout ce qui se passe <strong>avant</strong> : la préparation, l'organisation, la qualité des données qui lui arrivent.</p>
+        <p>Les deux vont ensemble. Un comptable travaille mieux — et souvent pour moins cher — quand ses dossiers arrivent propres.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>Comment nous travaillons</h2>
+    <p class="narrow" style="margin-top:1.2rem">Pas de forfait imposé. Quelques heures par mois pour certains, une présence hebdomadaire pour d'autres. Vous gardez la main sur les décisions ; nous prenons l'exécution.</p>
+    <p class="narrow">Nous intervenons à distance dans toute la Belgique francophone, et sur site à Bruxelles et en Brabant wallon.</p>
+  </div>
+
+  <div class="final">
+    <h2>Les trois tâches qui vous coûtent le plus de temps</h2>
+    <p class="lead narrow" style="margin-top:1rem">Identifions-les ensemble en 45 minutes. Nous vous dirons franchement lesquelles valent la peine d'être externalisées — et lesquelles non.</p>
+    <div class="btnrow"><a class="btn" href="mailto:bonjour@tavoo.be">Prendre rendez-vous</a><span class="btnnote">Premier entretien offert</span></div>
+  </div>
+</section>
+
+<!-- ============ ASSURANCES ============ -->
+<section class="panel" id="assur" role="tabpanel">
+  <p class="eyebrow">03 · Assurances &amp; coûts</p>
+  <h1 class="svc-head">Vos assurances vous coûtent probablement 15 % de trop.</h1>
+  <p class="lead narrow" style="margin-top:1.6rem">Les contrats d'une PME s'empilent au fil des années : un contrat signé au lancement, un autre ajouté à l'achat d'un véhicule, un troisième imposé par la banque lors d'un crédit. Personne ne relit jamais l'ensemble.</p>
+
+  <div class="block">
+    <div class="duo">
+      <div><h2>Un regard indépendant sur vos contrats.</h2></div>
+      <div>
+        <p>Nous ne vendons pas d'assurances. Nous ne touchons aucune commission sur vos polices. Nous analysons ce que vous payez et ce que vous couvrez, avec quinze années d'expérience du courtage — c'est-à-dire en sachant exactement où regarder.</p>
+      </div>
+    </div>
+    <ul class="symptoms">
+      <li><strong>Inventaire complet</strong> de vos polices et de vos primes réelles.</li>
+      <li><strong>Doublons entre contrats</strong>, particulièrement fréquents en RC et en protection juridique.</li>
+      <li><strong>Sous-assurances</strong> — le vrai risque, souvent bien plus coûteux qu'une surprime.</li>
+      <li><strong>Écart entre les garanties souscrites et votre activité d'aujourd'hui.</strong></li>
+      <li><strong>Comparaison des conditions</strong> avec ce qui se pratique actuellement sur le marché.</li>
+    </ul>
+  </div>
+
+  <div class="block block--rule">
+    <h2>Et ensuite ?</h2>
+    <p class="narrow" style="margin-top:1.2rem">Vous décidez. Vous pouvez porter les corrections vous-même auprès de votre courtier actuel — beaucoup de nos clients le font, et cela fonctionne très bien. Notre rôle s'arrête à l'analyse et à l'argumentaire.</p>
+    <div class="callout">
+      <p><strong>Le suivi des sinistres.</strong> Un sinistre mal déclaré est un sinistre mal indemnisé. Nous pouvons prendre en charge la constitution du dossier, le suivi de l'expertise et les échanges avec l'assureur, jusqu'au règlement.</p>
+    </div>
+  </div>
+
+  <div class="final">
+    <h2>Envoyez-nous la liste de vos contrats.</h2>
+    <p class="lead narrow" style="margin-top:1rem">En 45 minutes, nous vous dirons s'il y a un vrai gisement d'économies chez vous. Si la réponse est non, nous vous le dirons aussi.</p>
+    <div class="btnrow"><a class="btn" href="mailto:bonjour@tavoo.be">Demander mon audit</a><span class="btnnote">Premier avis gratuit</span></div>
+  </div>
+</section>
+
+<!-- ============ À PROPOS ============ -->
+<section class="panel" id="apropos" role="tabpanel">
+  <p class="eyebrow">À propos</p>
+  <h1 class="svc-head">Deux personnes, pas un standard téléphonique.</h1>
+  <p class="lead narrow" style="margin-top:1.6rem">Tavoo, c'est nous deux. Vous nous rencontrez au premier rendez-vous, et ce sont les mêmes qui font le travail ensuite.</p>
+
+  <div class="people">
+    <div class="person">
+      <p class="role">Assurances &amp; finance</p>
+      <h3>Gregory Goemaere</h3>
+      <p>Quinze ans dans le courtage en assurances, dont plusieurs années à la tête d'un bureau bruxellois. Je lis une police d'entreprise comme vous lisez votre carnet de commandes : je vois tout de suite ce qui manque et ce qui est payé deux fois.</p>
+    </div>
+    <div class="person">
+      <p class="role">Administration &amp; procédures</p>
+      <h3>Julie Duplat</h3>
+      <p>Organisation, encodage, procédures et suivi financier. Mon travail consiste à faire en sorte que vous n'ayez plus jamais à chercher un document — et que votre comptable reçoive des dossiers propres.</p>
+    </div>
+  </div>
+
+  <div class="final" id="contact2">
+    <p class="eyebrow">Contact</p>
+    <h2>Écrivez-nous.</h2>
+    <p class="lead narrow" style="margin-top:1rem">Une ligne suffit pour commencer. Dites-nous ce qui vous encombre le plus en ce moment, nous vous répondons sous 24 heures ouvrables.</p>
+    <div class="btnrow">
+      <a class="btn" href="mailto:bonjour@tavoo.be">bonjour@tavoo.be</a>
+      <a class="btn ghost" href="tel:+32000000000">+32 (0)4xx xx xx xx</a>
+    </div>
+  </div>
+</section>
+
+</div><!-- /sheet -->
+</div><!-- /wrap -->
+
+<div class="wrap foot">
+  <div class="footgrid">
+    <div>
+      <strong>Tavoo</strong> — L'intendance des PME<br>
+      Bruxelles &amp; Brabant wallon · Prestations en français
+    </div>
+    <div>
+      Nom commercial de Gregory Goemaere SRL et de JD Capital SRL<br>
+      TVA BE 0xxx.xxx.xxx — TVA BE 0xxx.xxx.xxx
+    </div>
+    <div>
+      <a href="#">Conditions générales</a> · <a href="#">Vie privée</a> · <a href="#">Cookies</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var titles = {
+    home:  "Gestion administrative et financière pour PME | Tavoo",
+    peppol:"Mise en conformité Peppol pour PME et indépendants | Tavoo",
+    admin: "Gestion administrative externalisée pour PME | Tavoo",
+    assur: "Audit des assurances de votre entreprise | Tavoo",
+    apropos:"À propos et contact | Tavoo"
+  };
+
+  function show(id){
+    tabs.forEach(function(t){ t.setAttribute('aria-selected', String(t.dataset.panel === id)); });
+    panels.forEach(function(p){ p.classList.toggle('is-active', p.id === id); });
+    if(titles[id]) document.title = titles[id];
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ show(t.dataset.panel); });
+  });
+
+  document.querySelectorAll('[data-go]').forEach(function(el){
+    el.addEventListener('click', function(e){ e.preventDefault(); show(el.dataset.go); });
+  });
+
+  // keyboard navigation across the file tabs
+  document.querySelector('.tabs').addEventListener('keydown', function(e){
+    var i = tabs.indexOf(document.activeElement);
+    if(i < 0) return;
+    var n = null;
+    if(e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+    if(e.key === 'ArrowLeft')  n = (i - 1 + tabs.length) % tabs.length;
+    if(n !== null){ e.preventDefault(); tabs[n].focus(); tabs[n].click(); }
+  });
+
+  // hero: the scattered pile settles into an ordered stack
+  var pile = document.getElementById('pile');
+  if(pile){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      pile.classList.add('is-sorted');
+    } else {
+      setTimeout(function(){ pile.classList.add('is-sorted'); }, 700);
+    }
+  }
+})();
+</script>
+</body>
+</html>

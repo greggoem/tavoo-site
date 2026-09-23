@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestion administrative et financière pour PME | Tavoo</title>
+<meta name="description" content="Tavoo décharge les PME belges de leur administration, de leur suivi financier et de leurs assurances. Diagnostic gratuit de 45 minutes. Bruxelles et Brabant wallon.">
+<link rel="canonical" href="https://www.tavoo.be/">
+<meta property="og:title" content="Gestion administrative et financière pour PME | Tavoo">
+<meta property="og:description" content="Tavoo décharge les PME belges de leur administration, de leur suivi financier et de leurs assurances. Diagnostic gratuit de 45 minutes. Bruxelles et Brabant wallon.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_BE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16292B;
+  --ink-soft:#4A6065;
+  --paper:#EDEFE5;
+  --sheet:#F8F9F3;
+  --rule:#C6CDBB;
+  --blue:#2C46A8;
+  --blue-soft:#E3E7F6;
+  --stamp:#A8402F;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"Spectral",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --gut:clamp(20px,5vw,64px);
+  --maxw:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 31px,rgba(22,41,43,.045) 31px,rgba(22,41,43,.045) 32px);opacity:.55}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);position:relative;z-index:1}
+.skip{position:absolute;left:-9999px}
+.skip:focus{position:static;display:inline-block;margin:10px 0;font-family:var(--mono);font-size:.8rem}
+
+h1,h2,h3,h4{font-family:var(--display);font-weight:800;line-height:1.06;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(2.3rem,5.6vw,4.1rem);font-variation-settings:"wdth" 92}
+h2{font-size:clamp(1.7rem,3.6vw,2.7rem)}
+h3{font-size:clamp(1.15rem,2vw,1.4rem);font-weight:600;letter-spacing:-.01em}
+p{margin:0 0 1.1em}
+a{color:var(--blue)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 1.1rem;display:flex;align-items:center;gap:.7rem}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--rule)}
+.lead{font-size:clamp(1.08rem,1.9vw,1.32rem);line-height:1.55;color:var(--ink-soft)}
+.narrow{max-width:62ch}
+
+.masthead{padding-top:26px}
+.brandline{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:16px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.55rem;letter-spacing:-.03em;font-variation-settings:"wdth" 88;text-decoration:none;color:var(--ink)}
+.brand span{color:var(--blue)}
+.brandsub{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-top:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:inline-block;border:1px solid var(--rule);border-bottom:none;background:rgba(255,255,255,.35);color:var(--ink-soft);font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;padding:11px 17px 12px;border-radius:9px 9px 0 0;white-space:nowrap;text-decoration:none;transition:background .18s ease,color .18s ease}
+.tab:hover{background:rgba(255,255,255,.7);color:var(--ink)}
+.tab[aria-current="page"]{background:var(--sheet);color:var(--ink);box-shadow:0 -2px 0 var(--blue) inset;font-weight:500}
+.tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:0 12px 12px 12px;box-shadow:0 22px 44px -34px rgba(22,41,43,.5);padding:clamp(26px,5vw,60px) clamp(22px,5vw,64px) clamp(40px,6vw,72px);animation:fadeUp .42s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,60px);align-items:center;padding-bottom:14px}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero .lead{max-width:36ch;margin-top:1.4rem}
+.pile{position:relative;height:370px}
+.doc{position:absolute;left:50%;top:50%;width:min(270px,74%);background:#fff;border:1px solid var(--rule);border-radius:3px;padding:13px 15px 15px;box-shadow:0 8px 18px -12px rgba(22,41,43,.55);font-family:var(--mono);font-size:.7rem;letter-spacing:.03em;color:var(--ink-soft);transform:translate(-50%,-50%) rotate(var(--r)) translate(var(--x),var(--y));transition:transform 1s cubic-bezier(.22,.9,.28,1)}
+.doc b{display:block;font-family:var(--display);font-weight:600;font-size:.9rem;color:var(--ink);letter-spacing:-.01em;margin-bottom:5px}
+.doc::after{content:"";display:block;margin-top:9px;height:1px;background:repeating-linear-gradient(to right,var(--rule) 0,var(--rule) 26px,transparent 26px,transparent 34px)}
+.is-sorted .doc{transform:translate(-50%,-50%) rotate(0deg) translate(0,var(--sy))}
+.stampmark{position:absolute;right:2%;bottom:6%;font-family:var(--mono);font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--stamp);border:2px solid var(--stamp);border-radius:4px;padding:7px 13px;transform:rotate(-9deg) scale(.85);opacity:0;transition:opacity .5s ease 1.05s,transform .5s cubic-bezier(.3,1.5,.5,1) 1.05s}
+.is-sorted .stampmark{opacity:.92;transform:rotate(-9deg) scale(1)}
+
+.btn{display:inline-block;font-family:var(--mono);font-size:.82rem;letter-spacing:.05em;text-decoration:none;padding:15px 26px;border-radius:5px;background:var(--blue);color:#fff;border:1px solid var(--blue);transition:transform .16s ease,box-shadow .16s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px -12px rgba(44,70,168,.9)}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn.ghost:hover{background:var(--blue-soft);box-shadow:none}
+.btnrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:1.9rem;align-items:center}
+.btnnote{font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
+a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+.block{padding-top:clamp(46px,6vw,84px)}
+.block--rule{border-top:1px solid var(--rule);margin-top:clamp(46px,6vw,84px)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,54px)}
+
+.symptoms{list-style:none;margin:1.6rem 0 0;padding:0}
+.symptoms li{padding:15px 0 15px 34px;border-bottom:1px solid var(--rule);position:relative;color:var(--ink-soft)}
+.symptoms li::before{content:"\2014";position:absolute;left:0;top:15px;font-family:var(--mono);color:var(--blue)}
+.symptoms li strong{color:var(--ink);font-weight:600}
+
+.index{margin-top:1.8rem;border-top:1px solid var(--rule)}
+.idx{display:flex;align-items:baseline;gap:14px;padding:22px 0;border-bottom:1px solid var(--rule);text-decoration:none;color:inherit;transition:padding-left .22s ease}
+.idx:hover{padding-left:9px}
+.idx .num{font-family:var(--mono);font-size:.74rem;color:var(--blue);flex:none;padding-top:4px}
+.idx .ttl{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2.1vw,1.45rem);letter-spacing:-.015em;flex:none;max-width:60%}
+.idx .dots{flex:1;border-bottom:1.5px dotted var(--rule);transform:translateY(-4px)}
+.idx .go{font-family:var(--mono);font-size:.74rem;color:var(--ink-soft);flex:none}
+.idx:hover .go{color:var(--blue)}
+.idx .sub{display:block;font-family:var(--body);font-weight:400;font-size:.9rem;color:var(--ink-soft);margin-top:5px;line-height:1.4}
+
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,34px);margin-top:2rem}
+.step{border-top:2px solid var(--ink);padding-top:16px}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:.74rem;color:var(--blue);display:block;margin-bottom:9px}
+.step p{font-size:.96rem;color:var(--ink-soft);margin:.5rem 0 0}
+
+.proof{background:var(--ink);color:var(--sheet);border-radius:10px;padding:clamp(26px,4vw,44px);margin-top:2rem}
+.proof .fig{font-family:var(--display);font-weight:800;font-size:clamp(3rem,8vw,5.4rem);line-height:.92;letter-spacing:-.045em;font-variation-settings:"wdth" 84;margin:0}
+.proof .cap{font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;color:#A9BDBE;margin:12px 0 0;max-width:46ch;line-height:1.7}
+
+.people{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,38px);margin-top:2rem}
+.person{background:#fff;border:1px solid var(--rule);border-radius:8px;padding:24px}
+.person .role{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.person p{font-size:.95rem;color:var(--ink-soft);margin:.6rem 0 0}
+
+.final{border:1px solid var(--rule);border-radius:10px;padding:clamp(28px,4vw,48px);margin-top:clamp(46px,6vw,80px);background:linear-gradient(180deg,#fff,var(--sheet))}
+.svc-head{max-width:46ch}
+.callout{border-left:3px solid var(--blue);background:var(--blue-soft);padding:18px 22px;border-radius:0 6px 6px 0;margin:1.8rem 0;font-size:.97rem}
+.callout p:last-child{margin-bottom:0}
+.what{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px);margin-top:1.8rem}
+.what h4{font-family:var(--display);font-size:1rem;font-weight:600;margin-bottom:.5rem}
+.what ul{margin:0;padding-left:18px;color:var(--ink-soft);font-size:.96rem}
+.what li{margin-bottom:.45em}
+
+.nextlinks{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:clamp(40px,5vw,64px);padding-top:26px;border-top:1px solid var(--rule)}
+.nextlinks a{display:block;text-decoration:none;color:inherit;border:1px solid var(--rule);border-radius:8px;padding:18px 20px;background:#fff;transition:border-color .18s ease,transform .18s ease}
+.nextlinks a:hover{border-color:var(--blue);transform:translateY(-2px)}
+.nextlinks .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:6px}
+.nextlinks .v{font-family:var(--display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
+
+.foot{padding:34px 0 60px;font-family:var(--mono);font-size:.72rem;line-height:1.9;color:var(--ink-soft)}
+.foot a{color:var(--ink-soft)}
+.footgrid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .pile{height:300px;order:-1}
+  .duo,.people,.what,.nextlinks{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .idx{flex-wrap:wrap}
+  .idx .ttl{max-width:100%}
+  .idx .dots{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N3NFJ7T3D2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-N3NFJ7T3D2');
+</script>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header class="wrap masthead">
+  <div class="brandline">
+    <a class="brand" href="index.html">Tavoo<span>.</span></a>
+    <div class="brandsub">L'intendance des PME &middot; Bruxelles &amp; Brabant wallon</div>
+  </div>
+  <nav class="tabs" aria-label="Navigation principale">
+    <a class="tab" href="index.html" aria-current="page">Accueil</a>
+    <a class="tab" href="facturation-electronique-peppol.html">Facturation électronique</a>
+    <a class="tab" href="gestion-administrative.html">Gestion administrative</a>
+    <a class="tab" href="audit-assurances.html">Assurances</a>
+    <a class="tab" href="agents-ia.html">Agents IA</a>
+    <a class="tab" href="a-propos.html">À propos</a>
+  </nav>
+</header>
+
+<main class="wrap" id="contenu">
+<div class="sheet">
+
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Bruxelles &middot; Brabant wallon</p>
+      <h1>Vous n'avez pas mont&eacute; cette bo&icirc;te pour <em>encoder des factures.</em></h1>
+      <p class="lead">Nous prenons en charge l'administration, le suivi financier et les assurances des petites et moyennes entreprises. Vous r&eacute;cup&eacute;rez vos soir&eacute;es et une vision claire de vos chiffres.</p>
+      <div class="btnrow">
+        <a class="btn" href="https://cal.com/greg-tavoo/diagnostic-45-minutes" target="_blank" rel="noopener">R&eacute;server 45 minutes</a>
+        <span class="btnnote">Gratuit, sans engagement</span>
+      </div>
+    </div>
+    <div class="pile" id="pile" aria-hidden="true">
+      <article class="doc" style="--r:-13deg;--x:-58px;--y:-96px;--sy:-132px"><b>Facture fournisseur</b></article>
+      <article class="doc" style="--r:8deg;--x:64px;--y:-58px;--sy:-88px"><b>D&eacute;claration TVA</b></article>
+      <article class="doc" style="--r:-5deg;--x:-72px;--y:-8px;--sy:-44px"><b>Rejet Peppol</b></article>
+      <article class="doc" style="--r:15deg;--x:38px;--y:34px;--sy:0px"><b>Police RC exploitation</b></article>
+      <article class="doc" style="--r:-9deg;--x:-30px;--y:82px;--sy:44px"><b>Relance impay&eacute;</b></article>
+      <article class="doc" style="--r:6deg;--x:70px;--y:118px;--sy:88px"><b>Contrat leasing</b></article>
+      <div class="stampmark">Class&eacute;</div>
+    </div>
+  </div>
+
+  <section class="block block--rule">
+    <p class="eyebrow">Le probl&egrave;me</p>
+    <div class="duo">
+      <div><h2>Ce n'est jamais urgent. Jusqu'au jour o&ugrave; &ccedil;a l'est.</h2></div>
+      <div>
+        <p>L'administratif d'une petite entreprise ne s'effondre pas d'un coup. Il glisse. Une facture pas encod&eacute;e, une police reconduite sans &ecirc;tre relue, un rappel TVA trait&eacute; la veille de l'&eacute;ch&eacute;ance.</p>
+        <p>Puis un jour vous d&eacute;couvrez que vous payez deux fois la m&ecirc;me garantie, qu'un client ne vous a jamais r&eacute;gl&eacute;, ou qu'une facture partie en janvier n'est jamais arriv&eacute;e chez son destinataire.</p>
+      </div>
+    </div>
+    <ul class="symptoms">
+      <li><strong>Vous encodez le dimanche soir.</strong> Ou vous n'encodez pas, et votre comptable r&eacute;clame.</li>
+      <li><strong>Vous ne savez pas o&ugrave; vous en &ecirc;tes.</strong> Le r&eacute;sultat, vous le d&eacute;couvrez au bilan, dix mois trop tard.</li>
+      <li><strong>Vos assurances datent d'il y a huit ans.</strong> Votre activit&eacute;, non.</li>
+      <li><strong>Votre facturation &eacute;lectronique est &laquo;&nbsp;branch&eacute;e&nbsp;&raquo;.</strong> Personne n'a v&eacute;rifi&eacute; si elle fonctionne.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">Nos trois interventions</p>
+    <h2>Choisissez la porte d'entr&eacute;e.<br>Nous nous occupons du couloir.</h2>
+    <nav class="index">
+      <a class="idx" href="facturation-electronique-peppol.html">
+        <span class="num">01</span>
+        <span class="ttl">Facturation &eacute;lectronique &amp; conformit&eacute; Peppol<span class="sub">Audit de vos flux, param&eacute;trage r&eacute;el, int&eacute;gration comptable.</span></span>
+        <span class="dots"></span><span class="go">Voir &rarr;</span>
+      </a>
+      <a class="idx" href="gestion-administrative.html">
+        <span class="num">02</span>
+        <span class="ttl">Gestion administrative externalis&eacute;e<span class="sub">Encodage, relances, proc&eacute;dures, reporting mensuel.</span></span>
+        <span class="dots"></span><span class="go">Voir &rarr;</span>
+      </a>
+      <a class="idx" href="audit-assurances.html">
+        <span class="num">03</span>
+        <span class="ttl">Audit des assurances et des co&ucirc;ts<span class="sub">Doublons, sous-assurances, primes hors march&eacute;.</span></span>
+        <span class="dots"></span><span class="go">Voir &rarr;</span>
+      </a>
+      <a class="idx" href="agents-ia.html">
+        <span class="num">04</span>
+        <span class="ttl">Agents IA pour t&acirc;ches r&eacute;p&eacute;titives<span class="sub">Rep&eacute;rage, prototype en deux semaines, mise en production.</span></span>
+        <span class="dots"></span><span class="go">Voir &rarr;</span>
+      </a>
+    </nav>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">Comment &ccedil;a se passe</p>
+    <div class="steps">
+      <div class="step"><h3>On regarde</h3><p>45 minutes, chez vous ou en visio. Vous montrez vos trois derniers mois. Nous &eacute;coutons et nous posons des questions.</p></div>
+      <div class="step"><h3>On vous dit</h3><p>Une page, envoy&eacute;e sous 48 heures : ce qui coince, ce que &ccedil;a vous co&ucirc;te, ce qui vaut la peine d'&ecirc;tre corrig&eacute;. M&ecirc;me si vous ne travaillez pas avec nous.</p></div>
+      <div class="step"><h3>On fait</h3><p>Quelques heures par mois ou une pr&eacute;sence hebdomadaire, selon vos besoins. Pas de forfait impos&eacute;, pas d'engagement de dur&eacute;e.</p></div>
+    </div>
+  </section>
+
+
+  <section class="final">
+    <p class="eyebrow">Commencer</p>
+    <h2>Quarante-cinq minutes pour savoir o&ugrave; vous en &ecirc;tes.</h2>
+    <p class="lead narrow" style="margin-top:1rem">Vous repartez avec un diagnostic &eacute;crit, que la suite se fasse avec nous ou non. Si nous estimons qu'il n'y a rien &agrave; gagner chez vous, nous vous le dirons.</p>
+    <div class="btnrow">
+      <a class="btn" href="https://cal.com/greg-tavoo/diagnostic-45-minutes" target="_blank" rel="noopener">Prendre rendez-vous</a>
+      <a class="btn ghost" href="tel:+32475891968">0475 89 19 68</a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer class="wrap foot">
+  <div class="footgrid">
+    <div><strong>Tavoo</strong> &mdash; L'intendance des PME<br>Bruxelles &amp; Brabant wallon &middot; Prestations en fran&ccedil;ais</div>
+    <div>Nom commercial de Gregory Goemaere SRL et de JD Capital SRL<br>TVA BE 0741.943.892 &mdash; TVA BE 0829.201.035</div>
+    <div><a href="index.html">Accueil</a> &middot; <a href="a-propos.html">Contact</a> &middot; <a href="#">Vie priv&eacute;e</a></div>
+  </div>
+</footer>
+<script>
+(function(){
+  var pile=document.getElementById('pile');
+  if(!pile) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){pile.classList.add('is-sorted');return;}
+  setTimeout(function(){pile.classList.add('is-sorted');},700);
+})();
+</script>
+</body>
+</html>
