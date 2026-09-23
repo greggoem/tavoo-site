@@ -148,14 +148,43 @@ a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
   *{animation-duration:.01ms!important;transition-duration:.01ms!important}
   html{scroll-behavior:auto}
 }
+
+/* ---------- bandeau cookies ---------- */
+#cookie-banner{
+  position:fixed;left:0;right:0;bottom:0;z-index:9999;
+  display:none;
+  background:var(--sheet);
+  border-top:1px solid var(--rule);
+  box-shadow:0 -12px 30px -22px rgba(22,41,43,.7);
+  padding:18px var(--gut) calc(18px + env(safe-area-inset-bottom,0px));
+}
+#cookie-banner.is-open{display:block}
+.cookie-inner{
+  max-width:var(--maxw);margin:0 auto;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:space-between;
+}
+.cookie-text{font-size:.92rem;color:var(--ink-soft);max-width:62ch;margin:0;line-height:1.5}
+.cookie-text strong{color:var(--ink);font-weight:600}
+.cookie-actions{display:flex;gap:10px;flex-wrap:wrap}
+.cookie-btn{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;
+  padding:12px 20px;border-radius:5px;cursor:pointer;
+  border:1px solid var(--blue);background:transparent;color:var(--blue);
+  transition:background .16s ease,color .16s ease;
+}
+.cookie-btn:hover{background:var(--blue-soft)}
+.cookie-btn.solid{background:var(--blue);color:#fff}
+.cookie-btn.solid:hover{background:#24397F}
+.cookie-btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+@media (max-width:700px){
+  .cookie-inner{flex-direction:column;align-items:flex-start}
+  .cookie-actions{width:100%}
+  .cookie-btn{flex:1;text-align:center}
+}
 </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N3NFJ7T3D2"></script>
+<!-- Mesure d'audience : chargee uniquement apres consentement (voir #cookie-banner) -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-N3NFJ7T3D2');
+  window.TAVOO_GA_ID = 'G-N3NFJ7T3D2';
 </script>
 </head>
 <body>
@@ -236,9 +265,63 @@ a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
   <div class="footgrid">
     <div><strong>Tavoo</strong> &mdash; L'intendance des PME<br>Bruxelles &amp; Brabant wallon &middot; Prestations en fran&ccedil;ais</div>
     <div>Nom commercial de Gregory Goemaere SRL et de JD Capital SRL<br>TVA BE 0741.943.892 &mdash; TVA BE 0829.201.035</div>
-    <div><a href="index.html">Accueil</a> &middot; <a href="a-propos.html">Contact</a> &middot; <a href="#">Vie priv&eacute;e</a></div>
+    <div><a href="index.html">Accueil</a> &middot; <a href="a-propos.html">Contact</a> &middot; <a href="#" id="open-cookies">Cookies</a></div>
   </div>
 </footer>
 
+
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Consentement aux cookies de mesure d'audience">
+  <div class="cookie-inner">
+    <p class="cookie-text"><strong>Un mot sur les cookies.</strong> Nous aimerions mesurer l'audience de ce site avec Google Analytics, pour savoir quelles pages sont utiles. Rien n'est d&eacute;pos&eacute; sans votre accord, et le site fonctionne exactement de la m&ecirc;me mani&egrave;re si vous refusez.</p>
+    <div class="cookie-actions">
+      <button class="cookie-btn" type="button" data-cookie="refuse">Refuser</button>
+      <button class="cookie-btn solid" type="button" data-cookie="accept">Accepter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY = 'tavoo-consent';
+  var banner = document.getElementById('cookie-banner');
+
+  function loadAnalytics(){
+    if (window.__tavooGaLoaded || !window.TAVOO_GA_ID) return;
+    window.__tavooGaLoaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.TAVOO_GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', window.TAVOO_GA_ID, { anonymize_ip: true });
+  }
+
+  function read(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }
+  function write(v){ try { localStorage.setItem(KEY, v); } catch(e){} }
+
+  function decide(choice){
+    write(choice);
+    banner.classList.remove('is-open');
+    if (choice === 'accept') loadAnalytics();
+  }
+
+  var current = read();
+  if (current === 'accept') loadAnalytics();
+  else if (current !== 'refuse') banner.classList.add('is-open');
+
+  banner.addEventListener('click', function(e){
+    var b = e.target.closest('[data-cookie]');
+    if (b) decide(b.getAttribute('data-cookie'));
+  });
+
+  var reopen = document.getElementById('open-cookies');
+  if (reopen) reopen.addEventListener('click', function(e){
+    e.preventDefault();
+    banner.classList.add('is-open');
+  });
+})();
+</script>
 </body>
 </html>
