@@ -182,6 +182,48 @@ a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
   .cookie-actions{width:100%}
   .cookie-btn{flex:1;text-align:center}
 }
+
+/* ---------- avatars ---------- */
+.avatar{position:relative;width:54px;height:54px;border-radius:50%;overflow:hidden;
+  background:var(--blue-soft);border:1px solid var(--rule);flex:none;display:grid;place-items:center}
+.avatar::before{content:attr(data-initials);font-family:var(--display);font-weight:600;
+  font-size:.95rem;color:var(--blue);letter-spacing:.01em}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.avatar--lg{width:92px;height:92px}
+.avatar--lg::before{font-size:1.5rem}
+.avatarpair{display:flex;align-items:center;gap:15px;margin-top:1.8rem}
+.avatarpair .stack{display:flex}
+.avatarpair .stack .avatar+.avatar{margin-left:-16px;box-shadow:-2px 0 0 var(--sheet)}
+.avatarpair p{margin:0;font-size:.93rem;color:var(--ink-soft);line-height:1.45}
+.personhead{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.personhead .role{margin-bottom:4px}
+.personhead h3{margin:0}
+
+/* ---------- formulaire ---------- */
+.form{margin-top:1.9rem;max-width:640px}
+.fieldrow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:var(--mono);font-size:.71rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
+.field input,.field textarea{width:100%;font-family:var(--body);font-size:1rem;color:var(--ink);
+  background:#fff;border:1px solid var(--rule);border-radius:6px;padding:12px 14px;
+  transition:border-color .16s ease,box-shadow .16s ease}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--blue);
+  box-shadow:0 0 0 3px var(--blue-soft)}
+.field textarea{min-height:124px;resize:vertical;line-height:1.55}
+.field ::placeholder{color:#9AA8A4}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;
+  color:var(--ink-soft);margin:4px 0 20px;line-height:1.45;cursor:pointer}
+.consent input{margin-top:4px;flex:none;accent-color:var(--blue)}
+.hp{position:absolute;left:-9999px;opacity:0}
+button.btn{cursor:pointer;font-family:var(--mono);font-size:.82rem;letter-spacing:.05em}
+button.btn[disabled]{opacity:.55;cursor:default;transform:none;box-shadow:none}
+.formnote{font-family:var(--mono);font-size:.73rem;color:var(--ink-soft);margin:14px 0 0}
+.formnote a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
+.formmsg{display:none;border-radius:8px;padding:18px 20px;margin-top:18px;font-size:.96rem;line-height:1.5}
+.formmsg.ok{display:block;background:#DDEBD8;border:1px solid #A8C5A1;color:#22401C}
+.formmsg.ko{display:block;background:#F6E4E1;border:1px solid #D7AA9F;color:#6B2C1E}
+@media(max-width:700px){.fieldrow{grid-template-columns:1fr}.personhead{gap:13px}}
 </style>
 <!-- Mesure d'audience : chargee uniquement apres consentement (voir #cookie-banner) -->
 <script>
@@ -240,10 +282,60 @@ a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
     <p class="narrow" style="margin-top:1.2rem">Ind&eacute;pendants, TPE et PME jusqu'&agrave; une trentaine de collaborateurs, &agrave; Bruxelles et en Brabant wallon, qui n'ont pas de service administratif structur&eacute; en interne.</p>
   </section>
 
-  <section class="final">
+  <section class="final" id="contact">
     <h2>Diagnostic Peppol en 45 minutes</h2>
     <p class="lead narrow" style="margin-top:1rem">Nous regardons ensemble vos trois derniers mois de facturation. Vous repartez avec la liste pr&eacute;cise de ce qui coince.</p>
-    <div class="btnrow"><a class="btn" href="https://cal.com/greg-tavoo/diagnostic-45-minutes" target="_blank" rel="noopener">R&eacute;server mon diagnostic</a><span class="btnnote">Gratuit, sans engagement</span></div>
+      <div class="avatarpair">
+        <span class="stack">
+          <span class="avatar" data-initials="JD"><img src="images/julie.jpg" alt="Julie Duplat" onerror="this.remove()"></span>
+          <span class="avatar" data-initials="GG"><img src="images/greg.jpg" alt="Gregory Goemaere" onerror="this.remove()"></span>
+        </span>
+        <p>C'est Julie ou Gregory qui vous r&eacute;pond, sous 24 heures ouvrables.</p>
+      </div>
+
+      <form class="form" id="contactform" novalidate>
+        <input type="hidden" name="access_key" value="8c668ca3-3855-40d8-851f-326dc64de860">
+        <input type="hidden" name="subject" value="tavoo.be &mdash; Facturation électronique">
+        <input type="hidden" name="from_name" value="Site tavoo.be">
+        <input type="hidden" name="Page" value="Facturation électronique">
+        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="fieldrow">
+          <div class="field">
+            <label for="f-nom">Votre nom</label>
+            <input id="f-nom" name="Nom" type="text" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="f-soc">Votre soci&eacute;t&eacute;</label>
+            <input id="f-soc" name="Societe" type="text" autocomplete="organization">
+          </div>
+        </div>
+
+        <div class="fieldrow">
+          <div class="field">
+            <label for="f-mail">E-mail</label>
+            <input id="f-mail" name="Email" type="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="f-tel">T&eacute;l&eacute;phone <span style="text-transform:none;letter-spacing:0">(facultatif)</span></label>
+            <input id="f-tel" name="Telephone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-msg">O&ugrave; en &ecirc;tes-vous avec votre facturation &eacute;lectronique&nbsp;?</label>
+          <textarea id="f-msg" name="Message" required placeholder="Quelques lignes suffisent. Nous reviendrons vers vous avec des questions."></textarea>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" required>
+          <span>J'accepte que Tavoo conserve ces informations pour me r&eacute;pondre. Elles ne sont ni revendues ni utilis&eacute;es &agrave; d'autres fins.</span>
+        </label>
+
+        <button class="btn" type="submit">Envoyer</button>
+        <p class="formnote">Vous pr&eacute;f&eacute;rez le t&eacute;l&eacute;phone&nbsp;? <a href="tel:+32475891968">0475 89 19 68</a></p>
+        <div class="formmsg" id="formmsg" role="status" aria-live="polite"></div>
+      </form>
   </section>
 <nav class="nextlinks" aria-label="Pages liées">
   <a href="gestion-administrative.html"><span class="k">Service 01</span><span class="v">Gestion administrative externalisée</span></a>
@@ -311,6 +403,44 @@ a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
   if (reopen) reopen.addEventListener('click', function(e){
     e.preventDefault();
     banner.classList.add('is-open');
+  });
+})();
+</script>
+<script>
+(function(){
+  var f = document.getElementById('contactform');
+  if (!f) return;
+  var msg = document.getElementById('formmsg');
+  var btn = f.querySelector('button[type=submit]');
+
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!f.checkValidity()) { f.reportValidity(); return; }
+    var initial = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Envoi\u2026';
+    var data = {};
+    new FormData(f).forEach(function(v, k){ data[k] = v; });
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify(data)
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (!d.success) throw new Error(d.message || 'erreur');
+      Array.prototype.forEach.call(f.querySelectorAll('.fieldrow,.field,.consent,button,.formnote'),
+        function(el){ el.style.display = 'none'; });
+      msg.className = 'formmsg ok';
+      msg.textContent = 'Merci, votre message est bien parti. Julie ou Gregory vous r\u00e9pond sous 24 heures ouvrables.';
+    })
+    .catch(function(){
+      msg.className = 'formmsg ko';
+      msg.innerHTML = "L'envoi n'a pas abouti. \u00c9crivez-nous directement \u00e0 "
+        + '<a href="mailto:bonjour@tavoo.be">bonjour@tavoo.be</a> ou appelez le '
+        + '<a href="tel:+32475891968">0475 89 19 68</a>.';
+      btn.disabled = false; btn.textContent = initial;
+    });
   });
 })();
 </script>
